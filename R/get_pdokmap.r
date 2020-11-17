@@ -7,7 +7,8 @@
 #' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat,
 #'   upperrightlon, upperrightlat).
 #' @param zoom a zoom level
-#' @param maptype BRT, BRT-grijs.
+#' @param maptype brtachtergrondkaart, brtachtergrondkaartgrijs,
+#'   brtachtergrondkaartpastel, brtachtergrondkaartwater.
 #' @param crop crop raw map tiles to specified bounding box. if FALSE, the
 #'   resulting map will more than cover the bounding box specified.
 #' @param messaging turn messaging on/off
@@ -56,23 +57,23 @@
 #'
 #' bbox <- bb2bbox(attr(google, "bb"))
 #'
-#' get_pdokmap(bbox, maptype = "terrain")            %>% ggmap()
-#' get_pdokmap(bbox, maptype = "terrain-background") %>% ggmap()
-#' get_pdokmap(bbox, maptype = "terrain-labels")     %>% ggmap()
-#' get_pdokmap(bbox, maptype = "terrain-lines")      %>% ggmap()
-#'
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaart")           %>% ggmap()
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs")      %>% ggmap()
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaartpastel")     %>% ggmap()
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaartwater")      %>% ggmap()
+
 #'
 #' ## zoom levels
 #' ########################################
 #'
-#' get_pdokmap(bbox, maptype = "watercolor", zoom = 11) %>% ggmap(extent = "device")
-#' get_pdokmap(bbox, maptype = "watercolor", zoom = 12) %>% ggmap(extent = "device")
-#' get_pdokmap(bbox, maptype = "watercolor", zoom = 13) %>% ggmap(extent = "device")
-#' # get_pdokmap(bbox, maptype = "watercolor", zoom = 14) %>% ggmap(extent = "device")
-#' # get_pdokmap(bbox, maptype = "watercolor", zoom = 15) %>% ggmap(extent = "device")
-#' # get_pdokmap(bbox, maptype = "watercolor", zoom = 16) %>% ggmap(extent = "device")
-#' # get_pdokmap(bbox, maptype = "watercolor", zoom = 17) %>% ggmap(extent = "device")
-#' # get_pdokmap(bbox, maptype = "watercolor", zoom = 18) %>% ggmap(extent = "device")
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 11) %>% ggmap(extent = "device")
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 12) %>% ggmap(extent = "device")
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 13) %>% ggmap(extent = "device")
+#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 14) %>% ggmap(extent = "device")
+#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 15) %>% ggmap(extent = "device")
+#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 16) %>% ggmap(extent = "device")
+#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 17) %>% ggmap(extent = "device")
+#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 18) %>% ggmap(extent = "device")
 #'
 #'
 #' ## https
@@ -82,42 +83,6 @@
 #' get_pdokmap(bbox, zoom = 14, urlonly = TRUE)
 #' get_pdokmap(bbox, zoom = 14, urlonly = TRUE, https = TRUE)
 #' ggmap(get_pdokmap(bbox, zoom = 15, https = TRUE, messaging = TRUE))
-#'
-#'
-#' ## more examples
-#' ########################################
-#'
-#' gc <- geocode("rio de janeiro")
-#'
-#' get_pdokmap(bbox, zoom = 10) %>% ggmap() +
-#'  geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
-#'
-#' get_pdokmap(bbox, zoom = 10, crop = FALSE) %>% ggmap() +
-#'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
-#'
-#' get_pdokmap(bbox, zoom = 10, maptype = "watercolor") %>% ggmap() +
-#'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
-#'
-#' get_pdokmap(bbox, zoom = 10, maptype = "toner") %>% ggmap() +
-#'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
-#'
-#'
-#' # continental united states labels
-#' c("left" = -125, "bottom" = 25.75, "right" = -67, "top" = 49) %>%
-#'   get_pdokmap(zoom = 5, maptype = "toner-labels") %>%
-#'   ggmap()
-#'
-#'
-#'
-#'
-#' # accuracy check - white house
-#' gc <- geocode("the white house")
-#'
-#' qmap("the white house", zoom = 16)  +
-#'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
-#'
-#' qmap("the white house", zoom = 16, source = "stamen", maptype = "terrain")  +
-#'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
 #'
 #'
 #'
@@ -148,7 +113,8 @@
 #' @rdname get_pdokmap
 get_pdokmap <- function(
   bbox = c(left = 5.0, bottom = 52.0, right = 5.4, top = 52.2),
-  zoom = 10, maptype = c("BRT", "BRT-grijs"),
+  zoom = 10, maptype = c("brtachtergrondkaart", "brtachtergrondkaartgrijs",
+                         "brtachtergrondkaartpastel", "brtachtergrondkaartwater"),
   crop = TRUE, messaging = FALSE, urlonly = FALSE, color = c("color","bw"), force = FALSE,
   where = tempdir(), https = TRUE, ...
 ){
@@ -211,11 +177,7 @@ get_pdokmap <- function(
             "(try a smaller zoom).")
   }
 
-  if (maptype == "BRT-grijs") maptype = "brtachtergrondkaartgrijs"
-  if (maptype == "BRT") maptype = "brtachtergrondkaart"
-
   epsg = "EPSG:3857"
-
 
   # make urls - e.g. https://geodata.nationaalgeoregister.nl/tiles/service/wmts/[maptype]/[epsg]/[zoom]/[x]/[y].png
   base_url = "https://geodata.nationaalgeoregister.nl/tiles/service/wmts/" #layer=brtachtergrondkaartgrijs
