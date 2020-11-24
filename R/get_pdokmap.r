@@ -21,8 +21,7 @@
 #' @param https if TRUE, queries an https endpoint so that web traffic between
 #'   you and the tile server is ecrypted using SSL.
 #' @param ... ...
-#' @return a ggmap object (a classed raster object with a bounding box
-#'   attribute)
+#' @return a ggplot object
 #' @seealso \url{https://www.pdok.nl/introductie/-/article/basisregistratie-topografie-achtergrondkaarten-brt-a-}, [ggmap()]
 #' @name get_pdokmap
 #' @examples
@@ -157,8 +156,9 @@ get_pdokmap <- function(
 
   # set image type
   filetype <- "png"
-  message("Map tiles by PDOK. <copy right info hier>")
-  #"Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
+  currentyear = format.Date(Sys.Date(), "%Y")
+  attribuition = paste0("BRT Achtergrondkaart (Kadaster, http://www.pdok.nl, ", currentyear,") CC BY 4.0")
+  message(attribuition)
 
   # determine tiles to get
   fourCorners <- expand.grid(
@@ -200,7 +200,6 @@ get_pdokmap <- function(
 
   # stitch tiles together
   map <- stitch(listOfTiles)
-
 
   # format map and return if not cropping
   if(!crop) {
@@ -255,9 +254,18 @@ get_pdokmap <- function(
   attr(croppedmap, "maptype") <- maptype
   attr(croppedmap, "zoom")    <- zoom
 
+  # # return
+  # croppedmap
 
+  ggcroppedmap = ggmap(croppedmap)
+
+  # # add caption/copyright
+  ggcroppedmap = ggcroppedmap + geom_label(label = attribuition,
+                         y = BB[2], x = BB[3], hjust = 1, vjust = 0,
+                         color="black", size = 3, alpha = 0.2, label.size = 0,
+                         label.padding = unit(0.1, "lines"))
   # return
-  croppedmap
+  ggcroppedmap
 }
 
 get_pdokmap_tile <- function(maptype, zoom, x, y, color, force = FALSE,
@@ -374,7 +382,6 @@ get_pdokmap_tile <- function(maptype, zoom, x, y, color, force = FALSE,
 
   # cache
   file_drawer_set(url, tile)
-
 
   # return
   tile
