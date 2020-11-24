@@ -55,8 +55,7 @@ you and the tile server is ecrypted using SSL.}
 \item{...}{...}
 }
 \value{
-a ggmap object (a classed raster object with a bounding box
-attribute)
+a ggplot object
 }
 \description{
 \code{get_pdokmap} accesses a tile server for Dutch maps and
