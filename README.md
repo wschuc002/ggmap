@@ -83,11 +83,6 @@ and [Stamen Maps](http://maps.stamen.com) and plot them using the
 ``` r
 library("ggmap")
 #  Loading required package: ggplot2
-#  Registered S3 methods overwritten by 'ggplot2':
-#    method         from 
-#    [.quosures     rlang
-#    c.quosures     rlang
-#    print.quosures rlang
 #  Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
 #  Please cite ggmap if you use it! See citation("ggmap") for details.
 
@@ -180,8 +175,8 @@ their input is a bit different:
 
 ``` r
 get_googlemap("waco texas", zoom = 12) %>% ggmap()
-#  Source : https://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=terrain&key=xxx
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx
+#  Source : https://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=terrain&key=xxx-kx6Qbdci027gNUKM1wOFQo0
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx-kx6Qbdci027gNUKM1wOFQo0
 ```
 
 ![](tools/README-google_maps-1.png)
@@ -200,24 +195,25 @@ Google’s geocoding and reverse geocoding API’s are available through
 
 ``` r
 geocode("1301 S University Parks Dr, Waco, TX 76798")
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=1301+S+University+Parks+Dr,+Waco,+TX+76798&key=xxx
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=1301+S+University+Parks+Dr,+Waco,+TX+76798&key=xxx-kx6Qbdci027gNUKM1wOFQo0
 #  # A tibble: 1 x 2
 #      lon   lat
 #    <dbl> <dbl>
 #  1 -97.1  31.6
 revgeocode(c(lon = -97.1161, lat = 31.55098))
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?latlng=31.55098,-97.1161&key=xxx
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?latlng=31.55098,-97.1161&key=xxx-kx6Qbdci027gNUKM1wOFQo0
 #  Multiple addresses found, the first will be returned:
-#    1301 S University Parks Dr, Waco, TX 76706, USA
 #    55 Baylor Ave, Waco, TX 76706, USA
+#    1301 S University Parks Dr, Waco, TX 76706, USA
 #    1437 FM434, Waco, TX 76706, USA
 #    Bear Trail, Waco, TX 76706, USA
-#    Robinson, TX 76706, USA
+#    Waco, TX 76706, USA
 #    Waco, TX, USA
 #    McLennan County, TX, USA
 #    Texas, USA
 #    United States
-#  [1] "1301 S University Parks Dr, Waco, TX 76706, USA"
+#    HV2M+9H Waco, TX, USA
+#  [1] "55 Baylor Ave, Waco, TX 76706, USA"
 ```
 
 There is also a `mutate_geocode()` that works similarly to
@@ -226,15 +222,15 @@ There is also a `mutate_geocode()` that works similarly to
 ``` r
 tibble(address = c("white house", "", "waco texas")) %>% 
   mutate_geocode(address)
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=white+house&key=xxx
-#  "white house" not uniquely geocoded, using "1600 pennsylvania ave nw, washington, dc 20500, usa"
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=white+house&key=xxx-kx6Qbdci027gNUKM1wOFQo0
+#  "white house" not uniquely geocoded, using "1600 pennsylvania avenue nw, washington, dc 20500, usa"
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx-kx6Qbdci027gNUKM1wOFQo0
 #  # A tibble: 3 x 3
-#    address       lon   lat
-#    <chr>       <dbl> <dbl>
-#  1 white house -77.0  38.9
-#  2 ""           NA    NA  
-#  3 waco texas  -97.1  31.5
+#    address         lon   lat
+#    <chr>         <dbl> <dbl>
+#  1 "white house" -77.0  38.9
+#  2 ""             NA    NA  
+#  3 "waco texas"  -97.1  31.5
 ```
 
 Treks use Google’s routing API to give you routes (`route()` and
@@ -242,15 +238,15 @@ Treks use Google’s routing API to give you routes (`route()` and
 
 ``` r
 trek_df <- trek("houson, texas", "waco, texas", structure = "route")
-#  Source : https://maps.googleapis.com/maps/api/directions/json?origin=houson,+texas&destination=waco,+texas&key=xxx&mode=driving&alternatives=false&units=metric
+#  Source : https://maps.googleapis.com/maps/api/directions/json?origin=houson,+texas&destination=waco,+texas&key=xxx-kx6Qbdci027gNUKM1wOFQo0&mode=driving&alternatives=false&units=metric
 qmap("college station, texas", zoom = 8) +
   geom_path(
     aes(x = lon, y = lat),  colour = "blue",
     size = 1.5, alpha = .5,
     data = trek_df, lineend = "round"
   )
-#  Source : https://maps.googleapis.com/maps/api/staticmap?center=college%20station,%20texas&zoom=8&size=640x640&scale=2&maptype=terrain&language=en-EN&key=xxx
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=college+station,+texas&key=xxx
+#  Source : https://maps.googleapis.com/maps/api/staticmap?center=college%20station,%20texas&zoom=8&size=640x640&scale=2&maptype=terrain&language=en-EN&key=xxx-kx6Qbdci027gNUKM1wOFQo0
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=college+station,+texas&key=xxx-kx6Qbdci027gNUKM1wOFQo0
 ```
 
 ![](tools/README-route_trek-1.png)
@@ -263,14 +259,29 @@ Map distances, in both length and anticipated time, can be computed with
 
 ``` r
 mapdist(c("houston, texas", "dallas"), "waco, texas")
-#  Source : https://maps.googleapis.com/maps/api/distancematrix/json?origins=dallas&destinations=waco,+texas&key=xxx&mode=driving
-#  Source : https://maps.googleapis.com/maps/api/distancematrix/json?origins=houston,+texas&destinations=waco,+texas&key=xxx&mode=driving
+#  Source : https://maps.googleapis.com/maps/api/distancematrix/json?origins=dallas&destinations=waco,+texas&key=xxx-kx6Qbdci027gNUKM1wOFQo0&mode=driving
+#  Source : https://maps.googleapis.com/maps/api/distancematrix/json?origins=houston,+texas&destinations=waco,+texas&key=xxx-kx6Qbdci027gNUKM1wOFQo0&mode=driving
 #  # A tibble: 2 x 9
-#    from          to               m    km miles seconds minutes hours mode  
-#    <chr>         <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr> 
-#  1 houston, tex… waco, texas 298227  298. 185.    10257   171.   2.85 drivi…
-#  2 dallas        waco, texas 152480  152.  94.8    5356    89.3  1.49 drivi…
+#    from           to               m    km miles seconds minutes hours mode   
+#    <chr>          <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr>  
+#  1 dallas         waco, texas 155585  156.  96.7    5470    91.2  1.52 driving
+#  2 houston, texas waco, texas 298474  298. 185.    10353   173.   2.88 driving
 ```
+
+Dutch only: Official basemaps
+-----------------------------
+
+[PDOK](https://www.pdok.nl/introductie/-/article/basisregistratie-topografie-achtergrondkaarten-brt-a-)
+can be used just as easily as the Stamen maps. However, this function
+returns a ggplot-object directly:
+
+``` r
+BB <- c(left = 4.70, bottom = 52.30, right = 5.00, top = 52.45) # Amsterdam area
+get_pdokmap(bbox = BB, zoom = 12, maptype = "brtachtergrondkaart")
+#  BRT Achtergrondkaart (Kadaster, http://www.pdok.nl, 2020) CC BY 4.0
+```
+
+![](tools/README-pdok_maps-1.png)
 
 Installation
 ------------
