@@ -157,6 +157,17 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 
 
 
+## Dutch only: Official basemaps
+
+[PDOK](https://www.pdok.nl/introductie/-/article/basisregistratie-topografie-achtergrondkaarten-brt-a-) can be used just as easily
+as the Stamen maps. However, this function returns a ggplot-object directly:
+```{r pdok_maps}
+BB <- c(left = 4.70, bottom = 52.30, right = 5.00, top = 52.45) # Amsterdam area
+get_pdokmap(bbox = BB, zoom = 12, maptype = "brtachtergrondkaart")
+```
+
+
+
 
 
 
