@@ -159,6 +159,7 @@ get_pdokmap <- function(
   currentyear = format.Date(Sys.Date(), "%Y")
   attribuition = paste0("BRT Achtergrondkaart (Kadaster, http://www.pdok.nl, ", currentyear,") CC BY 4.0")
   message(attribuition)
+  attribuition2 = paste0("BRT Achtergrondkaart\n(Kadaster, http://www.pdok.nl, ", currentyear,") CC BY 4.0")
 
   # determine tiles to get
   fourCorners <- expand.grid(
@@ -260,10 +261,23 @@ get_pdokmap <- function(
   ggcroppedmap = ggmap(croppedmap)
 
   # # add caption/copyright
-  ggcroppedmap = ggcroppedmap + geom_label(label = attribuition,
-                         y = BB[2], x = BB[3], hjust = 1, vjust = 0,
-                         color="black", size = 3, alpha = 0.2, label.size = 0,
-                         label.padding = unit(0.1, "lines"))
+  aspect.ratio = as.numeric((BB[4]-BB[2])/(BB[3]-BB[1]))
+
+  if (aspect.ratio < 1)
+  {
+    ggcroppedmap = ggcroppedmap + geom_label(label = attribuition,
+                                             y = BB[2], x = BB[3], hjust = 1, vjust = 0,
+                                             color="black", size = 3, alpha = 0.2, label.size = 0,
+                                             label.r = unit(0, "lines"), label.padding = unit(0.2, "lines"))
+  } else
+  {
+    ggcroppedmap = ggcroppedmap + geom_label(label = attribuition2,
+                                             y = BB[2], x = BB[3], hjust = 1, vjust = 0,
+                                             color="black", size = 3, alpha = 0.2, label.size = 0,
+                                             label.r = unit(0, "lines"), label.padding = unit(0.2, "lines"))
+  }
+
+
   # return
   ggcroppedmap
 }
