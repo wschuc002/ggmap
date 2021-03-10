@@ -34,16 +34,16 @@
 #'
 #' bbox <- c(left = 5.0, bottom = 52.0, right = 5.4, top = 52.2)
 #'
-#' ggmap(get_pdokmap(bbox, zoom = 13))
-#' ggmap(get_pdokmap(bbox, zoom = 14))
-#' ggmap(get_pdokmap(bbox, zoom = 15))
-#' ggmap(get_pdokmap(bbox, zoom = 16, messaging = TRUE))
+#' get_pdokmap(bbox, zoom = 13)
+#' get_pdokmap(bbox, zoom = 14)
+#' get_pdokmap(bbox, zoom = 15)
+#' get_pdokmap(bbox, zoom = 16, messaging = TRUE)
 #'
 #' place <- "Utrecht"
 #' (google <- get_googlemap(place, zoom = 9))
 #' ggmap(google)
 #' bbox_utrecht <- c(left = 86.05, bottom = 27.21, right = 87.81, top = 28.76)
-#' ggmap(get_pdokmap(bbox_utrecht, zoom = 9))
+#' get_pdokmap(bbox_utrecht, zoom = 9)
 #'
 #'
 #'
@@ -56,23 +56,23 @@
 #'
 #' bbox <- bb2bbox(attr(google, "bb"))
 #'
-#' get_pdokmap(bbox, maptype = "brtachtergrondkaart")           %>% ggmap()
-#' get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs")      %>% ggmap()
-#' get_pdokmap(bbox, maptype = "brtachtergrondkaartpastel")     %>% ggmap()
-#' get_pdokmap(bbox, maptype = "brtachtergrondkaartwater")      %>% ggmap()
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaart"))
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs")
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaartpastel")
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaartwater")
 
 #'
 #' ## zoom levels
 #' ########################################
 #'
-#' get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 11) %>% ggmap(extent = "device")
-#' get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 12) %>% ggmap(extent = "device")
-#' get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 13) %>% ggmap(extent = "device")
-#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 14) %>% ggmap(extent = "device")
-#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 15) %>% ggmap(extent = "device")
-#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 16) %>% ggmap(extent = "device")
-#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 17) %>% ggmap(extent = "device")
-#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 18) %>% ggmap(extent = "device")
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 11)
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 12)
+#' get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 13)
+#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 14)
+#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 15)
+#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 16)
+#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 17)
+#' # get_pdokmap(bbox, maptype = "brtachtergrondkaartgrijs", zoom = 18)
 #'
 #'
 #' ## https
@@ -96,7 +96,7 @@
 #' # servers seem pretty persistent at not providing the maps.
 #'
 #' bbox <- c(left = 5.0, bottom = 52.0, right = 5.4, top = 52.2)
-#' ggmap(get_pdokmap(bbox, zoom = 17))
+#' get_pdokmap(bbox, zoom = 17)
 #' get_pdok_tile_download_fail_log()
 #' retry_pdok_map_download()
 #'
@@ -258,12 +258,12 @@ get_pdokmap <- function(
   # # return
   # croppedmap
 
-  ggcroppedmap = ggmap(croppedmap)
+  ggcroppedmap = ggmap(croppedmap) # extent = "device"
 
   # # add caption/copyright
   aspect.ratio = as.numeric((BB[4]-BB[2])/(BB[3]-BB[1]))
 
-  if (aspect.ratio < 1)
+  if (aspect.ratio < 0.7)
   {
     ggcroppedmap = ggcroppedmap + geom_label(label = attribuition,
                                              y = BB[2], x = BB[3], hjust = 1, vjust = 0,
