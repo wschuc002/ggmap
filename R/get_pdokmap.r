@@ -157,9 +157,9 @@ get_pdokmap <- function(
   # set image type
   filetype <- "png"
   currentyear = format.Date(Sys.Date(), "%Y")
-  attribuition = paste0("BRT Achtergrondkaart (Kadaster, http://www.pdok.nl, ", currentyear,") CC BY 4.0")
+  attribuition = paste0("BRT Achtergrondkaart (Kadaster, www.pdok.nl, ", currentyear,") CC BY 4.0")
   message(attribuition)
-  attribuition2 = paste0("BRT Achtergrondkaart\n(Kadaster, http://www.pdok.nl, ", currentyear,") CC BY 4.0")
+  attribuition2 = paste0("BRT Achtergrondkaart\n(Kadaster, www.pdok.nl, ", currentyear,") CC BY 4.0")
 
   # determine tiles to get
   fourCorners <- expand.grid(
